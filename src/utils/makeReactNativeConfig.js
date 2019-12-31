@@ -97,7 +97,7 @@ const getDefaultConfig = ({
         {
           test: /\.js$/,
           // eslint-disable-next-line no-useless-escape
-          exclude: /node_modules(?!.*[\/\\](react|@expo|pretty-format|haul|metro))/,
+          exclude: /node_modules(?!.*[\/\\](react|@react-navigation|@expo|pretty-format|haul|metro))/,
           use: [
             {
               loader: require.resolve('cache-loader'),
@@ -160,6 +160,10 @@ const getDefaultConfig = ({
         minimize: !!minify,
         debug: dev,
       }),
+      new webpack.BannerPlugin({
+        banner: 'if (this && !this.self) { this.self = this; };\n',
+        raw: true,
+      }),
     ].concat(
       dev
         ? [
@@ -171,10 +175,6 @@ const getDefaultConfig = ({
             new webpack.SourceMapDevToolPlugin({
               test: /\.(js|css|(js)?bundle)($|\?)/i,
               filename: '[file].map',
-            }),
-            new webpack.BannerPlugin({
-              banner: 'if (this && !this.self) { this.self = this; };\n',
-              raw: true,
             }),
           ]
         : [
@@ -324,7 +324,7 @@ function makeReactNativeConfig(
 
   if (isLegacy) {
     logger.warn(
-      'You using a deprecated style of the configuration. Please follow the docs for the upgrade. See https://github.com/callstack/haul/blob/master/docs/Configuration.md'
+      'You using a deprecated style of the configuration. Please follow the docs for the upgrade. See https://github.com/callstack/haul/blob/next/docs/Configuration.md'
     );
 
     return DEPRECATEDMakeReactNativeConfig(
